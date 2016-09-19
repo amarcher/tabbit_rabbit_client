@@ -4,11 +4,35 @@ import {
   Text,
   View
 } from 'react-native';
+import actions from '../actions';
 import propTypes from '../propTypes';
+import store from '../store';
 
-export default class Home extends Component {
-  propTypes: {
-    tab: propTypes.tab
+function getState() {
+  return store.getState();
+}
+
+export default class TabList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = getState();
+    this.update = this.update.bind(this);
+  }
+
+  componentDidMount() {
+   store.addChangeListener(this.update);
+
+    if (!this.state.tabs) {
+      actions.fetchTabs();
+    }
+  }
+
+  componentWillUnmount() {
+   store.removeChangeListener(this.update);
+  }
+
+  update() {
+   this.setState(getState());
   }
 
   render() {
@@ -17,10 +41,22 @@ export default class Home extends Component {
         <Text style={styles.welcome}>
           Tab List
         </Text>
-        <Text style={styles.instructions}>
-          Hey
-        </Text>
+        {this.renderTabs()}
       </View>
+    );
+  }
+
+  renderTabs() {
+    if (this.state.tabs) {
+      return this.state.tabs.map(this.renderTab, this);
+    }
+  }
+
+  renderTab(tab, index) {
+    return (
+      <Text key={index} style={styles.instructions}>
+        {tab.name}
+      </Text>
     );
   }
 }

@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
-import { Scene, Router } from 'react-native-router-flux';
-import Home from './scenes/Home';
-import TabList from './scenes/TabList';
+import { Router } from 'react-native-router-flux';
+import scenes from './Scenes';
 
-class App extends React.Component {
+export default class App extends Component {
   render() {
-    return (
-      <Router>
-        <Scene key="root">
-          <Scene key="login" component={Home} title="Home" initial={true} />
-          <Scene key="tabList" component={TabList} title="TabList" />
-        </Scene>
-      </Router>
-    );
+    return <Router scenes={scenes} />;
   }
 }
 

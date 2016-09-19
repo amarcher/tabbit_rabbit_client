@@ -1,9 +1,3 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- * @flow
- */
-
  import React, { Component } from 'react';
  import actions from '../actions';
  import {
@@ -15,7 +9,6 @@
 
 export default class Home extends Component {
   handlePress() {
-    console.log('hi')
     actions.login();
   }
 
